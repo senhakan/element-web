@@ -60,6 +60,7 @@ jobs:
             contents: read
         with:
             config: acloud/test
+            version: develop
             webapp-artifact: acloud-webapp
 
     windows-x64:
