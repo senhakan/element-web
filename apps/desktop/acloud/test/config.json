@@ -11,6 +11,8 @@
         "hide_labs": true,
         "hide_credits": true,
         "hide_integration_manager": true,
+        "hide_sharing": true,
+        "hide_chat_export": true,
         "managed_account_policy_endpoint": "https://im.acloud.tr/softphone/api/sip-profile"
     },
     "setting_defaults": {

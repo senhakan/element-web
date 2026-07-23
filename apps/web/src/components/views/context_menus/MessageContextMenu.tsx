@@ -49,6 +49,7 @@ import { _t } from "../../../languageHandler";
 import Modal from "../../../Modal";
 import Resend from "../../../Resend";
 import SettingsStore from "../../../settings/SettingsStore";
+import SdkConfig from "../../../SdkConfig";
 import { isUrlPermitted } from "../../../HtmlUtils";
 import { canEditContent, editEvent, isContentActionable } from "../../../utils/EventUtils";
 import IconizedContextMenu, { IconizedContextMenuOption, IconizedContextMenuOptionList } from "./IconizedContextMenu";
@@ -498,7 +499,7 @@ export default class MessageContextMenu extends React.Component<IProps, IState> 
         }
 
         let permalinkButton: JSX.Element | undefined;
-        if (permalink) {
+        if (permalink && !SdkConfig.get("enterprise_controls")?.hide_sharing) {
             permalinkButton = (
                 <IconizedContextMenuOption
                     icon={<ShareIcon />}

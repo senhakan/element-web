@@ -16,6 +16,7 @@ import { useUserInfoBasicOptionsViewModel } from "../../../viewmodels/right_pane
 import { Container, type Member } from "../UserInfo";
 import { shouldShowComponent } from "../../../../customisations/helpers/UIComponents";
 import { UIComponent } from "../../../../settings/UIFeature";
+import SdkConfig from "../../../../SdkConfig";
 
 const MessageButton = ({
     member,
@@ -120,7 +121,7 @@ export const UserInfoBasicOptionsView: React.FC<{
             {directMessageButton}
             {inviteUserButton}
             {readReceiptButton}
-            {shareUserButton}
+            {!SdkConfig.get("enterprise_controls")?.hide_sharing && shareUserButton}
             {insertPillButton}
         </Container>
     );

@@ -94,6 +94,8 @@ export interface WebConfigJson {
         hide_labs?: boolean;
         hide_credits?: boolean;
         hide_integration_manager?: boolean;
+        hide_sharing?: boolean;
+        hide_chat_export?: boolean;
         managed_account_policy_endpoint?: string;
     };
 
