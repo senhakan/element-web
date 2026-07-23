@@ -1248,6 +1248,7 @@
         "invalid_address": "Tanınmayan adres",
         "name_email_mxid_share_room": "Birini adını, e-posta adresini, kullanıcı adını ( <userId/> gibi) veya <a>bu odayı paylaş</a> kullanarak davet edin.",
         "name_email_mxid_share_space": "Birini adını, e-posta adresini, kullanıcı adını ( <userId/> gibi) veya <a>bu alanı paylaş</a> kullanarak davet edin.",
+        "name_mxid_only": "Birini adı veya kullanıcı adıyla (<userId/> gibi) davet edin.",
         "name_mxid_share_room": "Birini adını, kullanıcı adını ( <userId/> gibi) veya <a>bu odayı paylaş</a> kullanarak davet edin.",
         "name_mxid_share_space": "Birini adını, kullanıcı adını ( <userId/> gibi) veya <a>bu alanı paylaş</a> kullanarak davet edin.",
         "recents_section": "Güncel Sohbetler",

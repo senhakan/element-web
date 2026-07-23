@@ -493,6 +493,10 @@ export default class SecurityRoomSettingsTab extends React.Component<IProps, ISt
         const state = this.props.room.currentState;
         const canSetGuestAccess = state?.mayClientSendStateEvent(EventType.RoomGuestAccess, client);
 
+        if (SdkConfig.get("enterprise_controls")?.hide_external_invites) {
+            return <div className="mx_SecurityRoomSettingsTab_advancedSection" />;
+        }
+
         return (
             <div className="mx_SecurityRoomSettingsTab_advancedSection">
                 <SettingsToggleInput

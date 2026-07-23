@@ -424,6 +424,9 @@ export async function submitFeedback(
     canContact = false,
     extraData: Record<string, any> = {},
 ): Promise<void> {
+    if (SdkConfig.get("enterprise_controls")?.disable_telemetry) {
+        throw new Error("External feedback is disabled by enterprise policy");
+    }
     const bugReportEndpointUrl = SdkConfig.get().bug_report_endpoint_url;
     if (!bugReportEndpointUrl || bugReportEndpointUrl === BugReportEndpointURLLocal) {
         throw new Error("Bug report URL is not set or local");

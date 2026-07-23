@@ -96,6 +96,9 @@ export interface WebConfigJson {
         hide_integration_manager?: boolean;
         hide_sharing?: boolean;
         hide_chat_export?: boolean;
+        hide_external_invites?: boolean;
+        hide_developer_tools?: boolean;
+        disable_telemetry?: boolean;
         managed_account_policy_endpoint?: string;
     };
 

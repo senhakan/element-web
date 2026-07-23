@@ -215,7 +215,7 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
         }
 
         let bugReportingSection;
-        if (SdkConfig.get().bug_report_endpoint_url) {
+        if (SdkConfig.get().bug_report_endpoint_url && !SdkConfig.get("enterprise_controls")?.disable_telemetry) {
             bugReportingSection = (
                 <SettingsSubsection
                     heading={_t("bug_reporting|title")}

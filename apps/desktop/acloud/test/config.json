@@ -13,10 +13,26 @@
         "hide_integration_manager": true,
         "hide_sharing": true,
         "hide_chat_export": true,
+        "hide_external_invites": true,
+        "hide_developer_tools": true,
+        "disable_telemetry": true,
         "managed_account_policy_endpoint": "https://im.acloud.tr/softphone/api/sip-profile"
     },
     "setting_defaults": {
-        "UIFeature.deactivate": false
+        "UIFeature.deactivate": false,
+        "UIFeature.locationSharing": false,
+        "UIFeature.identityServer": false,
+        "UIFeature.thirdPartyId": false,
+        "UIFeature.advancedSettings": false,
+        "UIFeature.feedback": false,
+        "UIFeature.shareQrCode": false,
+        "UIFeature.shareSocial": false,
+        "UIFeature.allowCreatingPublicRooms": false,
+        "UIFeature.allowCreatingPublicSpaces": false,
+        "developerMode": false,
+        "analyticsOptIn": false,
+        "pseudonymousAnalyticsOptIn": false,
+        "deviceClientInformationOptIn": false
     },
     "integrations_ui_url": "",
     "integrations_rest_url": "",

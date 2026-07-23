@@ -479,7 +479,7 @@ export default class MessageContextMenu extends React.Component<IProps, IState> 
         }
 
         // This is specifically not behind the developerMode flag to give people insight into the Matrix
-        const viewSourceButton = (
+        const viewSourceButton = SdkConfig.get("enterprise_controls")?.hide_developer_tools ? undefined : (
             <IconizedContextMenuOption
                 icon={<InlineCodeIcon />}
                 label={_t("timeline|context_menu|view_source")}
@@ -566,7 +566,11 @@ export default class MessageContextMenu extends React.Component<IProps, IState> 
 
         let jumpToRelatedEventButton: JSX.Element | undefined;
         const relatedEventId = mxEvent.getAssociatedId();
-        if (relatedEventId && SettingsStore.getValue("developerMode")) {
+        if (
+            relatedEventId &&
+            SettingsStore.getValue("developerMode") &&
+            !SdkConfig.get("enterprise_controls")?.hide_developer_tools
+        ) {
             jumpToRelatedEventButton = (
                 <IconizedContextMenuOption
                     icon={<TreeIcon />}

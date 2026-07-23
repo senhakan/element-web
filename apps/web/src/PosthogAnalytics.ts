@@ -140,7 +140,8 @@ export class PosthogAnalytics {
 
     public constructor(private readonly posthog: PostHog) {
         const posthogConfig = SdkConfig.get("posthog");
-        if (posthogConfig?.project_api_key && posthogConfig?.api_host) {
+        const telemetryDisabled = SdkConfig.get("enterprise_controls")?.disable_telemetry === true;
+        if (!telemetryDisabled && posthogConfig?.project_api_key && posthogConfig?.api_host) {
             this.posthog.init(posthogConfig.project_api_key, {
                 api_host: posthogConfig.api_host,
                 autocapture: false,
