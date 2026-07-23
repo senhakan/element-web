@@ -103,6 +103,8 @@ export interface WebConfigJson {
         hide_help_faq?: boolean;
         hide_auth_footer?: boolean;
         password_reset_contact_message?: string;
+        hide_external_help_links?: boolean;
+        hide_access_token?: boolean;
     };
 
     integrations_ui_url?: string;

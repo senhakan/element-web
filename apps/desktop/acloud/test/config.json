@@ -19,8 +19,11 @@
         "hide_help_faq": true,
         "hide_auth_footer": true,
         "password_reset_contact_message": "Sistem yöneticiniz ile iletişime geçin.",
+        "hide_external_help_links": true,
+        "hide_access_token": true,
         "managed_account_policy_endpoint": "https://im.acloud.tr/softphone/api/sip-profile"
     },
+    "update_base_url": "",
     "embedded_pages": {
         "login_for_welcome": true
     },

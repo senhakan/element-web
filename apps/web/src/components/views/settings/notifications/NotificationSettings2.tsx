@@ -22,7 +22,7 @@ import { SettingLevel } from "../../../../settings/SettingLevel";
 import { NotificationLevel } from "../../../../stores/notifications/NotificationLevel";
 import { clearAllNotifications } from "../../../../utils/notifications";
 import AccessibleButton from "../../elements/AccessibleButton";
-import ExternalLink from "../../elements/ExternalLink";
+import SdkConfig from "../../../../SdkConfig";
 import LabelledCheckbox from "../../elements/LabelledCheckbox";
 import StyledRadioGroup from "../../elements/StyledRadioGroup";
 import TagComposer from "../../elements/TagComposer";
@@ -56,7 +56,15 @@ function boldText(text: string): JSX.Element {
 }
 
 function helpLink(sub: string): JSX.Element {
-    return <ExternalLink href="https://element.io/help#settings2">{sub}</ExternalLink>;
+    if (SdkConfig.get("enterprise_controls")?.hide_external_help_links) {
+        return <span>{sub}</span>;
+    }
+
+    return (
+        <a href="https://element.io/help#settings2" target="_blank" rel="noreferrer noopener">
+            {sub}
+        </a>
+    );
 }
 
 function useHasUnreadNotifications(): boolean {

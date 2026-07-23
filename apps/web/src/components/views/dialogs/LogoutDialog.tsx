@@ -12,7 +12,6 @@ import { type MatrixClient } from "matrix-js-sdk/src/matrix";
 import { Button, Text } from "@vector-im/compound-web";
 import ErrorIcon from "@vector-im/compound-design-tokens/assets/web/icons/error-solid";
 import KeyIcon from "@vector-im/compound-design-tokens/assets/web/icons/key";
-import PopOutIcon from "@vector-im/compound-design-tokens/assets/web/icons/pop-out";
 import SignOutIcon from "@vector-im/compound-design-tokens/assets/web/icons/sign-out";
 
 import dis from "../../../dispatcher/dispatcher";
@@ -109,9 +108,6 @@ export default function LogoutDialog(props: IProps): JSX.Element {
                     >
                         <EncryptionCardEmphasisedContent>
                             <Text>{_t("auth|logout_dialog|setup_secure_backup_description")}</Text>
-                            <Text as="a" target="_blank" href="https://element.io/en/help#encryption16">
-                                {_t("action|learn_more")} <PopOutIcon />
-                            </Text>
                         </EncryptionCardEmphasisedContent>
                         <EncryptionCardButtons>
                             <Button onClick={onGoToSettings} Icon={KeyIcon}>
