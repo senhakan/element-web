@@ -37,6 +37,11 @@
     "integrations_ui_url": "",
     "integrations_rest_url": "",
     "integrations_widgets_urls": [],
+    "element_call": {
+        "brand": "aCloud Görüşme",
+        "disable": false,
+        "use_exclusively": true
+    },
     "room_directory": {
         "servers": ["im.acloud.tr"]
     },
