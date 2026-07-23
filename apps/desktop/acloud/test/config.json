@@ -7,6 +7,18 @@
     },
     "disable_custom_urls": true,
     "brand": "aCloud",
+    "enterprise_controls": {
+        "hide_labs": true,
+        "hide_credits": true,
+        "hide_integration_manager": true,
+        "managed_account_policy_endpoint": "https://im.acloud.tr/softphone/api/sip-profile"
+    },
+    "setting_defaults": {
+        "UIFeature.deactivate": false
+    },
+    "integrations_ui_url": "",
+    "integrations_rest_url": "",
+    "integrations_widgets_urls": [],
     "room_directory": {
         "servers": ["im.acloud.tr"]
     },

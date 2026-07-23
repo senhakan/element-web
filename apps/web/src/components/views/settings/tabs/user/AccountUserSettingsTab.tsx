@@ -25,6 +25,7 @@ import { SettingsSection } from "../../shared/SettingsSection";
 import { SettingsSubsection, SettingsSubsectionText } from "../../shared/SettingsSubsection";
 import { UserPersonalInfoSettings } from "../../UserPersonalInfoSettings";
 import { SDKContext } from "../../../../../contexts/SDKContext.ts";
+import SdkConfig from "../../../../../SdkConfig";
 
 interface IProps {
     closeSettingsFn: () => void;
@@ -32,12 +33,16 @@ interface IProps {
 
 interface AccountSectionProps {
     canChangePassword: boolean;
+    passwordManagedExternally: boolean;
+    passwordPolicyResolved: boolean;
     onPasswordChangeError: (e: Error) => void;
     onPasswordChanged: () => void;
 }
 
 const AccountSection: React.FC<AccountSectionProps> = ({
     canChangePassword,
+    passwordManagedExternally,
+    passwordPolicyResolved,
     onPasswordChangeError,
     onPasswordChanged,
 }) => {
@@ -51,11 +56,17 @@ const AccountSection: React.FC<AccountSectionProps> = ({
                 data-testid="accountSection"
             >
                 <SettingsSubsectionText>{_t("settings|general|password_change_section")}</SettingsSubsectionText>
+                {passwordManagedExternally && (
+                    <SettingsSubsectionText>
+                        {_t("settings|general|password_managed_externally")}
+                    </SettingsSubsectionText>
+                )}
                 <ChangePassword
                     rowClassName=""
                     buttonKind="primary"
                     onError={onPasswordChangeError}
                     onFinished={onPasswordChanged}
+                    disabled={passwordManagedExternally || !passwordPolicyResolved}
                 />
             </SettingsSubsection>
         </SettingsSection>
@@ -88,6 +99,8 @@ const AccountUserSettingsTab: React.FC<IProps> = ({ closeSettingsFn }) => {
     const [canSetDisplayName, setCanSetDisplayName] = React.useState<boolean>(false);
     const [canSetAvatar, setCanSetAvatar] = React.useState<boolean>(false);
     const [canChangePassword, setCanChangePassword] = React.useState<boolean>(false);
+    const [passwordManagedExternally, setPasswordManagedExternally] = React.useState<boolean>(false);
+    const [passwordPolicyResolved, setPasswordPolicyResolved] = React.useState<boolean>(false);
 
     const sdkContext = useContext(SDKContext);
     const cli = sdkContext.client!;
@@ -101,6 +114,45 @@ const AccountUserSettingsTab: React.FC<IProps> = ({ closeSettingsFn }) => {
             // behaviour is you can change your password when the capability is missing or has not-false as
             // the enabled flag value.
             const canChangePassword = !changePasswordCap || changePasswordCap["enabled"] !== false;
+            const policyEndpoint = SdkConfig.get("enterprise_controls")?.managed_account_policy_endpoint;
+            let passwordManagedExternally = false;
+            if (policyEndpoint) {
+                // Fail closed when an enterprise policy endpoint is configured: a temporary
+                // policy lookup failure must not expose password controls for LDAP users.
+                passwordManagedExternally = true;
+                try {
+                    const accessToken = cli.getAccessToken();
+                    if (accessToken) {
+                        let policyPayload: unknown;
+                        if (
+                            policyEndpoint === "https://im.acloud.tr/softphone/api/sip-profile" &&
+                            typeof window.electron?.acloudSoftphoneApiGet === "function"
+                        ) {
+                            const result = await window.electron.acloudSoftphoneApiGet(accessToken);
+                            if (result.status >= 200 && result.status < 300) {
+                                policyPayload = result.body;
+                            }
+                        } else {
+                            const response = await fetch(policyEndpoint, {
+                                headers: {
+                                    Authorization: `Bearer ${accessToken}`,
+                                    Accept: "application/json",
+                                },
+                                credentials: "omit",
+                                cache: "no-store",
+                            });
+                            if (response.ok) policyPayload = await response.json();
+                        }
+                        if (policyPayload && typeof policyPayload === "object") {
+                            passwordManagedExternally =
+                                (policyPayload as { passwordManagedExternally?: boolean }).passwordManagedExternally ===
+                                true;
+                        }
+                    }
+                } catch (error) {
+                    logger.warn("Failed to load managed account policy", error);
+                }
+            }
 
             const authMetadata = await cli.getAuthMetadata().catch(() => {});
             const externalAccountManagementUrl = authMetadata?.account_management_uri;
@@ -119,6 +171,8 @@ const AccountUserSettingsTab: React.FC<IProps> = ({ closeSettingsFn }) => {
             setCanSetAvatar(canSetAvatar);
             setExternalAccountManagementUrl(externalAccountManagementUrl);
             setCanChangePassword(canChangePassword);
+            setPasswordManagedExternally(passwordManagedExternally);
+            setPasswordPolicyResolved(true);
         })();
     }, [cli]);
 
@@ -188,6 +242,8 @@ const AccountUserSettingsTab: React.FC<IProps> = ({ closeSettingsFn }) => {
             )}
             <AccountSection
                 canChangePassword={canChangePassword}
+                passwordManagedExternally={passwordManagedExternally}
+                passwordPolicyResolved={passwordPolicyResolved}
                 onPasswordChanged={onPasswordChanged}
                 onPasswordChangeError={onPasswordChangeError}
             />

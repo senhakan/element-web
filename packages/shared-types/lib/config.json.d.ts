@@ -90,6 +90,13 @@ export interface WebConfigJson {
 
     setting_defaults?: Record<string, any>; // <SettingName, Value>
 
+    enterprise_controls?: {
+        hide_labs?: boolean;
+        hide_credits?: boolean;
+        hide_integration_manager?: boolean;
+        managed_account_policy_endpoint?: string;
+    };
+
     integrations_ui_url?: string;
     integrations_rest_url?: string;
     integrations_widgets_urls?: string[];

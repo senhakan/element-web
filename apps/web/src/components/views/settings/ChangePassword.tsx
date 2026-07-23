@@ -42,6 +42,7 @@ interface IProps {
     autoFocusNewPasswordInput?: boolean;
     className?: string;
     shouldAskForEmail?: boolean;
+    disabled?: boolean;
 }
 
 interface IState {
@@ -225,6 +226,7 @@ export default class ChangePassword extends React.Component<IProps, IState> {
 
     private onClickChange = async (ev: React.MouseEvent | React.FormEvent): Promise<void> => {
         ev.preventDefault();
+        if (this.props.disabled) return;
 
         const allFieldsValid = await this.verifyFieldsBeforeSubmit();
         if (!allFieldsValid) {
@@ -335,6 +337,7 @@ export default class ChangePassword extends React.Component<IProps, IState> {
                                 value={this.state.oldPassword}
                                 onChange={this.onChangeOldPassword}
                                 onValidate={this.onOldPasswordValidate}
+                                disabled={this.props.disabled}
                             />
                         </div>
                         <div className={rowClassName}>
@@ -350,6 +353,7 @@ export default class ChangePassword extends React.Component<IProps, IState> {
                                 onChange={this.onChangeNewPassword}
                                 onValidate={this.onNewPasswordValidate}
                                 autoComplete="new-password"
+                                disabled={this.props.disabled}
                             />
                         </div>
                         <div className={rowClassName}>
@@ -363,12 +367,14 @@ export default class ChangePassword extends React.Component<IProps, IState> {
                                 onChange={this.onChangeNewPasswordConfirm}
                                 onValidate={this.onNewPasswordConfirmValidate}
                                 autoComplete="new-password"
+                                disabled={this.props.disabled}
                             />
                         </div>
                         <AccessibleButton
                             className={buttonClassName}
                             kind={this.props.buttonKind}
                             onClick={this.onClickChange}
+                            disabled={this.props.disabled}
                         >
                             {this.props.buttonLabel || _t("auth|change_password_action")}
                         </AccessibleButton>

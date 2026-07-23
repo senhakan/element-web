@@ -2642,6 +2642,7 @@
             "msisdns_heading": "Phone numbers",
             "oidc_manage_button": "Manage account",
             "password_change_section": "Set a new account password…",
+            "password_managed_externally": "Your password is managed by the corporate directory and cannot be changed here.",
             "password_change_success": "Your password was successfully changed.",
             "personal_info": "Personal info",
             "profile_subtitle": "This is how you appear to others on the app.",

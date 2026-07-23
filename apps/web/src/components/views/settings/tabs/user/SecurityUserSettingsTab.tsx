@@ -34,6 +34,7 @@ import { SettingsSubsection, SettingsSubsectionText } from "../../shared/Setting
 import { useOwnDevices } from "../../devices/useOwnDevices";
 import { DiscoverySettings } from "../../discovery/DiscoverySettings";
 import SetIntegrationManager from "../../SetIntegrationManager";
+import SdkConfig from "../../../../../SdkConfig";
 
 interface IIgnoredUserProps {
     userId: string;
@@ -372,7 +373,7 @@ export default class SecurityUserSettingsTab extends React.Component<EmptyObject
         return (
             <SettingsTab>
                 {warning}
-                <SetIntegrationManager />
+                {!SdkConfig.get("enterprise_controls")?.hide_integration_manager && <SetIntegrationManager />}
                 <SettingsSection heading={_t("settings|security|encryption_section")}>
                     {secureBackup}
                     {eventIndex}

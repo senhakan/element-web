@@ -263,7 +263,7 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
                         </SettingsSubsectionText>
                     </SettingsSubsection>
                     {this.renderLegal()}
-                    {this.renderCredits()}
+                    {!SdkConfig.get("enterprise_controls")?.hide_credits && this.renderCredits()}
                     <SettingsSubsection heading={_t("common|advanced")}>
                         <SettingsSubsectionText>
                             {_t(
