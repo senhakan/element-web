@@ -50,6 +50,9 @@
         <% }
     } %>
 
+    <% if (acloud_desktop) { %>
+        <link rel="stylesheet" href="acloud/softphone-launcher.css">
+    <% } %>
   </head>
   <body style="height: 100%; margin: 0;">
     <noscript>Sorry, Element requires JavaScript to be enabled.</noscript> <!-- TODO: Translate this? -->
@@ -64,6 +67,9 @@
         }
     }
 %>
+    <% if (acloud_desktop) { %>
+        <script src="acloud/softphone-launcher.js"></script>
+    <% } %>
 
     <!-- Legacy supporting Prefetch images -->
     <img src="<%= require('@vector-im/compound-design-tokens/icons/warning.svg').default %>" aria-hidden alt="" width="24" height="23" style="visibility: hidden; position: absolute; top: 0px; left: 0px;"/>

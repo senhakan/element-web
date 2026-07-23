@@ -1,0 +1,291 @@
+#akgun-softphone-launcher {
+  position: static;
+  z-index: 5000;
+  display: block;
+  font-family: "Segoe UI", sans-serif;
+  pointer-events: none;
+  color: var(--cpd-color-text-primary, #eef4fa);
+}
+
+#akgun-softphone-launcher.akgun-softphone-docked {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 208px;
+  pointer-events: none;
+}
+
+#akgun-softphone-launcher button {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.akgun-softphone-rightpanel-wrapper {
+  position: relative;
+  user-select: auto;
+  width: 208px;
+  flex-basis: 208px;
+  min-width: 192px;
+  max-width: 272px;
+  height: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  pointer-events: auto;
+  overflow: visible;
+}
+
+#akgun-softphone-launcher.akgun-softphone-docked .akgun-softphone-rightpanel-wrapper {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  box-shadow: -18px 0 42px rgba(0, 0, 0, 0.18);
+}
+
+.akgun-softphone-panel {
+  width: 100%;
+  height: 100%;
+}
+
+.akgun-softphone-card {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-left: 1px solid var(--cpd-color-border-interactive-secondary, rgba(110, 138, 163, 0.14));
+  background: var(--cpd-color-bg-canvas-default, #081119);
+  color: var(--cpd-color-text-primary, #eef4fa);
+}
+
+.akgun-softphone-rightpanel-wrapper[hidden] {
+  display: none !important;
+}
+
+.akgun-softphone-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 56px;
+  border-bottom: 1px solid var(--cpd-color-border-interactive-secondary, rgba(110, 138, 163, 0.14));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--cpd-color-bg-subtle-primary, #132230) 84%, transparent),
+      color-mix(in srgb, var(--cpd-color-bg-canvas-default, #081119) 96%, transparent)
+    );
+}
+
+.akgun-softphone-head-copy strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.akgun-softphone-head-copy span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: var(--cpd-color-text-secondary, #97aabc);
+}
+
+.akgun-softphone-close {
+  --cpd-icon-button-size: 28px;
+  flex: 0 0 auto;
+}
+
+.akgun-call-action {
+  width: calc(100% - 16px);
+  margin: 8px;
+  min-height: 38px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #72c8a8, #55ad8c);
+  color: #10251d;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(32, 116, 84, 0.16);
+}
+
+.akgun-call-tile-action {
+  position: absolute;
+  right: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 28px;
+  min-height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #1ed08a, #14a56d);
+  color: #081119;
+  font-weight: 800;
+  font-size: 0.72rem;
+  line-height: 1;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
+  z-index: 2;
+}
+
+.akgun-caller-entry-container {
+  display: flex;
+  justify-content: center;
+}
+
+.akgun-caller-entry-container.expanded {
+  justify-content: stretch;
+}
+
+.akgun-caller-entry {
+  --cpd-icon-button-size: 32px;
+  color: var(--cpd-color-icon-secondary, currentColor);
+  transition: color 160ms ease, filter 160ms ease, transform 160ms ease;
+}
+
+.akgun-caller-entry.collapsed {
+  width: 32px;
+}
+
+.akgun-caller-entry.expanded {
+  width: 100%;
+}
+
+.akgun-caller-entry ._indicator-icon_147l5_17 {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 24px;
+}
+
+.akgun-caller-entry.expanded ._indicator-icon_147l5_17 {
+  justify-content: flex-start;
+}
+
+.akgun-caller-entry-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+.akgun-caller-entry-label {
+  white-space: nowrap;
+}
+
+.akgun-caller-entry-active {
+  color: var(--cpd-color-icon-accent-primary, var(--cpd-color-icon-primary, #0f1720));
+}
+
+.akgun-caller-entry-registered {
+  color: #18b26b !important;
+}
+
+.akgun-caller-entry-unregistered {
+  color: #d84b4b !important;
+}
+
+.akgun-caller-entry-unauthorized {
+  color: #d99518 !important;
+}
+
+.akgun-caller-entry-registered ._indicator-icon_147l5_17,
+.akgun-caller-entry-registered .akgun-caller-entry-icon {
+  color: #18b26b !important;
+  fill: #18b26b !important;
+}
+
+.akgun-caller-entry-unregistered ._indicator-icon_147l5_17,
+.akgun-caller-entry-unregistered .akgun-caller-entry-icon {
+  color: #d84b4b !important;
+  fill: #d84b4b !important;
+}
+
+.akgun-caller-entry:hover {
+  filter: brightness(1.05);
+}
+
+.akgun-sip-auth-modal {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.akgun-sip-auth-dialog {
+  display: grid;
+  width: min(360px, calc(100vw - 40px));
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, #d99518 58%, transparent);
+  border-radius: 14px;
+  background: var(--cpd-color-bg-subtle-primary, #20262e);
+  color: var(--cpd-color-text-primary, #fff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.26);
+}
+
+.akgun-sip-auth-dialog strong {
+  font-size: 1rem;
+}
+
+.akgun-sip-auth-dialog p {
+  margin: 0;
+  color: var(--cpd-color-text-secondary, #c7ccd4);
+  font-size: 0.88rem;
+}
+
+.akgun-sip-auth-dialog button {
+  justify-self: end;
+  min-height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--cpd-color-bg-action-primary-rest, #0dbd8b);
+  color: var(--cpd-color-text-on-solid-primary, #07150f);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.akgun-sip-auth-modal[hidden] {
+  display: none;
+}
+
+.akgun-softphone-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--cpd-color-bg-canvas-default, #09121a);
+}
+
+.akgun-softphone-resize-handle {
+  position: absolute;
+  top: 0;
+  left: -7px;
+  width: 14px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 3;
+  pointer-events: auto;
+  background: transparent;
+}
+
+body.akgun-softphone-resizing {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+body.akgun-softphone-resizing iframe {
+  pointer-events: none !important;
+}
+
+@media (max-width: 720px) {
+  .akgun-softphone-rightpanel-wrapper {
+    width: min(100vw, 272px);
+    min-width: 192px;
+    max-width: 100%;
+  }
+}

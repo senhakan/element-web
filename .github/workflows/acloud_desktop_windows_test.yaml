@@ -1,0 +1,75 @@
+name: aCloud Desktop Windows x64 Test
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - "acloud/desktop-dialpad"
+
+concurrency:
+    group: acloud-desktop-windows-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+env:
+    NX_DEFAULT_OUTPUT_STYLE: stream-without-prefixes
+
+jobs:
+    webapp:
+        name: Build aCloud webapp
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+              with:
+                  persist-credentials: false
+
+            - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+            - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+              with:
+                  node-version-file: apps/desktop/.node-version
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: ./scripts/layered.sh
+
+            - name: Configure aCloud
+              run: cp apps/desktop/acloud/test/config.json apps/web/config.json
+
+            - name: Build webapp
+              working-directory: apps/web
+              env:
+                  ACLOUD_DESKTOP_BUILD: "true"
+                  CI_PACKAGE: true
+              run: VERSION="acloud-${GITHUB_SHA::12}" pnpm run build
+
+            - name: Upload webapp
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+              with:
+                  name: acloud-webapp
+                  path: apps/web/webapp
+                  retention-days: 7
+
+    prepare:
+        name: Prepare aCloud desktop
+        needs: webapp
+        uses: ./.github/workflows/build_desktop_prepare.yaml
+        permissions:
+            contents: read
+        with:
+            config: acloud/test
+            webapp-artifact: acloud-webapp
+
+    windows-x64:
+        name: Package Windows x64
+        needs: prepare
+        uses: ./.github/workflows/build_desktop_windows.yaml
+        with:
+            arch: x64
+            ref: ${{ github.sha }}
+            sign: ""
+            test: false
+            targets: squirrel
+            artifact-prefix: acloud-test-

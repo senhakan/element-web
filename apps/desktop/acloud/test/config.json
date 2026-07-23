@@ -1,0 +1,17 @@
+{
+    "default_server_name": "im.acloud.tr",
+    "default_server_config": {
+        "m.homeserver": {
+            "base_url": "https://im.acloud.tr"
+        }
+    },
+    "disable_custom_urls": true,
+    "brand": "aCloud",
+    "room_directory": {
+        "servers": ["im.acloud.tr"]
+    },
+    "features": {
+        "feature_video_rooms": true,
+        "feature_element_call_video_rooms": true
+    }
+}

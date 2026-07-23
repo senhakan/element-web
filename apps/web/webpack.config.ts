@@ -644,6 +644,7 @@ export default (env: string, argv: Record<string, any>): webpack.Configuration =
                 templateParameters: {
                     og_image_url: ogImageUrl,
                     csp_extra_source: process.env.CSP_EXTRA_SOURCE ?? "",
+                    acloud_desktop: process.env.ACLOUD_DESKTOP_BUILD === "true",
                 },
             }),
 
@@ -715,6 +716,7 @@ export default (env: string, argv: Record<string, any>): webpack.Configuration =
                     { from: "vector-icons/**", context: path.resolve(__dirname, "res") },
                     { from: "decoder-ring/**", context: path.resolve(__dirname, "res") },
                     { from: "media/**", context: path.resolve(__dirname, "res/") },
+                    { from: "acloud/**", context: path.resolve(__dirname, "res/") },
                     { from: "config.json", noErrorOnMissing: true },
                     // Element Call embedded widget
                     {
