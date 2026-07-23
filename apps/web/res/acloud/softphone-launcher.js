@@ -497,6 +497,16 @@
     if (!session?.userId) {
       throw new Error("matrix_session_unverified");
     }
+    if (IS_DESKTOP && path === SIP_PROFILE_ENDPOINT && typeof window.electron?.acloudSoftphoneApiGet === "function") {
+      const result = await window.electron.acloudSoftphoneApiGet(session.accessToken);
+      if (!result || !Number.isInteger(result.status)) {
+        throw new Error("desktop_api_invalid_response");
+      }
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error(`http_${result.status}`);
+      }
+      return result.body;
+    }
     const response = await fetch(path, {
       method: "GET",
       headers: {
