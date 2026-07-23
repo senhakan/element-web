@@ -147,6 +147,9 @@
 
 .akgun-caller-entry.expanded {
   width: 100%;
+  margin-left: 21px;
+  margin-right: 8px;
+  background-color: transparent !important;
 }
 
 .akgun-caller-entry ._indicator-icon_147l5_17 {
@@ -161,6 +164,11 @@
 
 .akgun-caller-entry.expanded ._indicator-icon_147l5_17 {
   justify-content: flex-start;
+  gap: 0;
+}
+
+.akgun-caller-entry.expanded .akgun-caller-entry-icon {
+  margin-right: 14px;
 }
 
 .akgun-caller-entry-icon {
