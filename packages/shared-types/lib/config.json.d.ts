@@ -100,6 +100,9 @@ export interface WebConfigJson {
         hide_developer_tools?: boolean;
         disable_telemetry?: boolean;
         managed_account_policy_endpoint?: string;
+        hide_help_faq?: boolean;
+        hide_auth_footer?: boolean;
+        password_reset_contact_message?: string;
     };
 
     integrations_ui_url?: string;

@@ -12,7 +12,9 @@ import { Button } from "@vector-im/compound-web";
 
 import { _t } from "../../../languageHandler";
 import SdkConfig from "../../../SdkConfig";
+import Modal from "../../../Modal";
 import AccessibleButton, { type ButtonEvent } from "../elements/AccessibleButton";
+import InfoDialog from "../dialogs/InfoDialog";
 import withValidation, { type IFieldState, type IValidationResult } from "../elements/Validation";
 import Field from "../elements/Field";
 import CountryDropdown from "./CountryDropdown";
@@ -85,6 +87,16 @@ export default class PasswordLogin extends React.PureComponent<IProps, IState> {
     private onForgotPasswordClick = (ev: ButtonEvent): void => {
         ev.preventDefault();
         ev.stopPropagation();
+
+        const contactMessage = SdkConfig.get("enterprise_controls")?.password_reset_contact_message;
+        if (contactMessage) {
+            Modal.createDialog(InfoDialog, {
+                title: _t("auth|reset_password_button"),
+                description: contactMessage,
+            });
+            return;
+        }
+
         this.props.onForgotPasswordClick?.();
     };
 

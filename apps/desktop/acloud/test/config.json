@@ -16,10 +16,17 @@
         "hide_external_invites": true,
         "hide_developer_tools": true,
         "disable_telemetry": true,
+        "hide_help_faq": true,
+        "hide_auth_footer": true,
+        "password_reset_contact_message": "Sistem yöneticiniz ile iletişime geçin.",
         "managed_account_policy_endpoint": "https://im.acloud.tr/softphone/api/sip-profile"
+    },
+    "embedded_pages": {
+        "login_for_welcome": true
     },
     "setting_defaults": {
         "UIFeature.deactivate": false,
+        "UIFeature.registration": false,
         "UIFeature.locationSharing": false,
         "UIFeature.identityServer": false,
         "UIFeature.thirdPartyId": false,

@@ -250,7 +250,9 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
             <SettingsTab>
                 <SettingsSection>
                     {bugReportingSection}
-                    <SettingsSubsection heading={_t("common|faq")} description={faqText} />
+                    {!SdkConfig.get("enterprise_controls")?.hide_help_faq && (
+                        <SettingsSubsection heading={_t("common|faq")} description={faqText} />
+                    )}
                     <SettingsSubsection heading={_t("setting|help_about|versions")}>
                         <SettingsSubsectionText>
                             <CopyableText getTextToCopy={this.getVersionTextToCopy}>
