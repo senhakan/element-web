@@ -215,7 +215,7 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
         }
 
         let bugReportingSection;
-        if (SdkConfig.get().bug_report_endpoint_url) {
+        if (SdkConfig.get().bug_report_endpoint_url && !SdkConfig.get("enterprise_controls")?.disable_telemetry) {
             bugReportingSection = (
                 <SettingsSubsection
                     heading={_t("bug_reporting|title")}
@@ -250,7 +250,9 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
             <SettingsTab>
                 <SettingsSection>
                     {bugReportingSection}
-                    <SettingsSubsection heading={_t("common|faq")} description={faqText} />
+                    {!SdkConfig.get("enterprise_controls")?.hide_help_faq && (
+                        <SettingsSubsection heading={_t("common|faq")} description={faqText} />
+                    )}
                     <SettingsSubsection heading={_t("setting|help_about|versions")}>
                         <SettingsSubsectionText>
                             <CopyableText getTextToCopy={this.getVersionTextToCopy}>
@@ -263,7 +265,7 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
                         </SettingsSubsectionText>
                     </SettingsSubsection>
                     {this.renderLegal()}
-                    {this.renderCredits()}
+                    {!SdkConfig.get("enterprise_controls")?.hide_credits && this.renderCredits()}
                     <SettingsSubsection heading={_t("common|advanced")}>
                         <SettingsSubsectionText>
                             {_t(
@@ -289,17 +291,19 @@ export default class HelpUserSettingsTab extends React.Component<EmptyObject, IS
                                 )}
                             </SettingsSubsectionText>
                         )}
-                        <SettingsSubsectionText>
-                            <details>
-                                <summary className="mx_HelpUserSettingsTab_accessTokenDetails">
-                                    {_t("common|access_token")}
-                                </summary>
-                                <strong>{_t("setting|help_about|access_token_detail")}</strong>
-                                <CopyableText getTextToCopy={() => this.context.getAccessToken()}>
-                                    {this.context.getAccessToken()}
-                                </CopyableText>
-                            </details>
-                        </SettingsSubsectionText>
+                        {!SdkConfig.get("enterprise_controls")?.hide_access_token && (
+                            <SettingsSubsectionText>
+                                <details>
+                                    <summary className="mx_HelpUserSettingsTab_accessTokenDetails">
+                                        {_t("common|access_token")}
+                                    </summary>
+                                    <strong>{_t("setting|help_about|access_token_detail")}</strong>
+                                    <CopyableText getTextToCopy={() => this.context.getAccessToken()}>
+                                        {this.context.getAccessToken()}
+                                    </CopyableText>
+                                </details>
+                            </SettingsSubsectionText>
+                        )}
                         <AccessibleButton onClick={this.onClearCacheAndReload} kind="danger_outline">
                             {_t("setting|help_about|clear_cache_reload")}
                         </AccessibleButton>

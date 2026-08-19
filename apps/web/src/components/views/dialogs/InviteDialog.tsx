@@ -62,6 +62,7 @@ import { DMRoomTile } from "./invite/DMRoomTile.tsx";
 import { logErrorAndShowErrorDialog } from "../../../utils/ErrorUtils.tsx";
 import UnknownIdentityUsersWarningDialog from "./invite/UnknownIdentityUsersWarningDialog.tsx";
 import { AddressType, getAddressType } from "../../../UserAddress.ts";
+import SdkConfig from "../../../SdkConfig";
 
 interface Result {
     userId: string;
@@ -1192,7 +1193,10 @@ export default class InviteDialog extends React.PureComponent<Props, IInviteDial
     private renderMainTab(): JSX.Element {
         let helpText;
         let buttonText;
-        const identityServersEnabled = SettingsStore.getValue(UIFeature.IdentityServer);
+        const identityServersEnabled =
+            SettingsStore.getValue(UIFeature.IdentityServer) &&
+            !SdkConfig.get("enterprise_controls")?.hide_external_invites;
+        const sharingDisabled = SdkConfig.get("enterprise_controls")?.hide_sharing === true;
 
         const cli = MatrixClientPeg.safeGet();
         const userId = cli.getUserId()!;
@@ -1234,7 +1238,9 @@ export default class InviteDialog extends React.PureComponent<Props, IInviteDial
             const isSpace = room?.isSpaceRoom();
 
             let helpTextUntranslated;
-            if (isSpace) {
+            if (sharingDisabled) {
+                helpTextUntranslated = _td("invite|name_mxid_only");
+            } else if (isSpace) {
                 if (identityServersEnabled) {
                     helpTextUntranslated = _td("invite|name_email_mxid_share_space");
                 } else {

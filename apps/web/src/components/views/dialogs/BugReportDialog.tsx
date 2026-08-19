@@ -69,7 +69,9 @@ export default class BugReportDialog extends React.Component<BugReportDialogProp
         this.unmounted = false;
         this.issueRef = React.createRef();
         // This config is static at runtime, but may change during tests.
-        this.isLocalOnly = SdkConfig.get().bug_report_endpoint_url === BugReportEndpointURLLocal;
+        this.isLocalOnly =
+            SdkConfig.get("enterprise_controls")?.disable_telemetry === true ||
+            SdkConfig.get().bug_report_endpoint_url === BugReportEndpointURLLocal;
     }
 
     public componentDidMount(): void {

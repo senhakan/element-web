@@ -49,6 +49,7 @@ import { type SDKContextClass } from "../../../contexts/SDKContextClass";
 import { useSettingValue } from "../../../hooks/useSettings";
 import { NoChange, useEventEmitterAsyncState, type AsyncStateCallbackResult } from "../../../hooks/useEventEmitter";
 import { EncryptionUserSettingsTab, type State } from "../settings/tabs/user/EncryptionUserSettingsTab";
+import SdkConfig from "../../../SdkConfig";
 
 interface IProps {
     initialTabId?: UserTab;
@@ -223,7 +224,11 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
             ),
         );
 
-        if (showLabsFlags() || SettingsStore.getFeatureSettingNames().some((k) => SettingsStore.getBetaInfo(k))) {
+        const hideLabs = SdkConfig.get("enterprise_controls")?.hide_labs === true;
+        if (
+            !hideLabs &&
+            (showLabsFlags() || SettingsStore.getFeatureSettingNames().some((k) => SettingsStore.getBetaInfo(k)))
+        ) {
             tabs.push(
                 new Tab(UserTab.Labs, _td("common|labs"), <LabsIcon />, <LabsUserSettingsTab />, "UserSettingsLabs"),
             );

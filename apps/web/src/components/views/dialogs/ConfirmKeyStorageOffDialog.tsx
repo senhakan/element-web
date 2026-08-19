@@ -58,14 +58,21 @@ export default class ConfirmKeyStorageOffDialog extends React.Component<Props> {
                 title={_t("settings|encryption|confirm_key_storage_off")}
             >
                 {_t("settings|encryption|confirm_key_storage_off_description", undefined, {
-                    a: (sub) => (
-                        <>
-                            <br />
-                            <a href={SdkConfig.get("help_key_storage_url")} target="_blank" rel="noreferrer noopener">
-                                {sub} <PopOutIcon />
-                            </a>
-                        </>
-                    ),
+                    a: (sub) =>
+                        SdkConfig.get("enterprise_controls")?.hide_external_help_links ? (
+                            <span>{sub}</span>
+                        ) : (
+                            <>
+                                <br />
+                                <a
+                                    href={SdkConfig.get("help_key_storage_url")}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    {sub} <PopOutIcon />
+                                </a>
+                            </>
+                        ),
                 })}
                 <EncryptionCardButtons>
                     <Button onClick={this.onGoToSettingsClick} autoFocus kind="primary" className="">

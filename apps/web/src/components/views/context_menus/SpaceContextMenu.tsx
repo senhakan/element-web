@@ -36,6 +36,7 @@ import defaultDispatcher from "../../../dispatcher/dispatcher";
 import { BetaPill } from "../beta/BetaCard";
 import SettingsStore from "../../../settings/SettingsStore";
 import { useFeatureEnabled } from "../../../hooks/useSettings";
+import SdkConfig from "../../../SdkConfig";
 import { Action } from "../../../dispatcher/actions";
 import { shouldShowComponent } from "../../../customisations/helpers/UIComponents";
 import { UIComponent } from "../../../settings/UIFeature";
@@ -116,7 +117,7 @@ const SpaceContextMenu: React.FC<IProps> = ({ space, hideHeader, onFinished, ...
     }
 
     let devtoolsOption: JSX.Element | null = null;
-    if (SettingsStore.getValue("developerMode")) {
+    if (SettingsStore.getValue("developerMode") && !SdkConfig.get("enterprise_controls")?.hide_developer_tools) {
         const onViewTimelineClick = (ev: ButtonEvent): void => {
             ev.preventDefault();
             ev.stopPropagation();

@@ -1388,6 +1388,7 @@
         "invalid_address": "Unrecognised address",
         "name_email_mxid_share_room": "Invite someone using their name, email address, username (like <userId/>) or <a>share this room</a>.",
         "name_email_mxid_share_space": "Invite someone using their name, email address, username (like <userId/>) or <a>share this space</a>.",
+        "name_mxid_only": "Invite someone using their name or username (like <userId/>).",
         "name_mxid_share_room": "Invite someone using their name, username (like <userId/>) or <a>share this room</a>.",
         "name_mxid_share_space": "Invite someone using their name, username (like <userId/>) or <a>share this space</a>.",
         "progress": {
@@ -2642,6 +2643,7 @@
             "msisdns_heading": "Phone numbers",
             "oidc_manage_button": "Manage account",
             "password_change_section": "Set a new account password…",
+            "password_managed_externally": "Your password is managed by the corporate directory and cannot be changed here.",
             "password_change_success": "Your password was successfully changed.",
             "personal_info": "Personal info",
             "profile_subtitle": "This is how you appear to others on the app.",

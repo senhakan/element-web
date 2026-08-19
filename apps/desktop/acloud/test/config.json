@@ -1,0 +1,62 @@
+{
+    "default_server_name": "im.acloud.tr",
+    "default_server_config": {
+        "m.homeserver": {
+            "base_url": "https://im.acloud.tr"
+        }
+    },
+    "disable_custom_urls": true,
+    "brand": "aCloud",
+    "enterprise_controls": {
+        "hide_labs": true,
+        "hide_credits": true,
+        "hide_integration_manager": true,
+        "hide_sharing": true,
+        "hide_chat_export": true,
+        "hide_external_invites": true,
+        "hide_developer_tools": true,
+        "disable_telemetry": true,
+        "hide_help_faq": true,
+        "hide_auth_footer": true,
+        "password_reset_contact_message": "Sistem yöneticiniz ile iletişime geçin.",
+        "hide_external_help_links": true,
+        "hide_access_token": true,
+        "managed_account_policy_endpoint": "https://im.acloud.tr/softphone/api/sip-profile"
+    },
+    "update_base_url": "",
+    "embedded_pages": {
+        "login_for_welcome": true
+    },
+    "setting_defaults": {
+        "UIFeature.deactivate": false,
+        "UIFeature.registration": false,
+        "UIFeature.locationSharing": false,
+        "UIFeature.identityServer": false,
+        "UIFeature.thirdPartyId": false,
+        "UIFeature.advancedSettings": false,
+        "UIFeature.feedback": false,
+        "UIFeature.shareQrCode": false,
+        "UIFeature.shareSocial": false,
+        "UIFeature.allowCreatingPublicRooms": false,
+        "UIFeature.allowCreatingPublicSpaces": false,
+        "developerMode": false,
+        "analyticsOptIn": false,
+        "pseudonymousAnalyticsOptIn": false,
+        "deviceClientInformationOptIn": false
+    },
+    "integrations_ui_url": "",
+    "integrations_rest_url": "",
+    "integrations_widgets_urls": [],
+    "element_call": {
+        "brand": "aCloud Görüşme",
+        "disable": false,
+        "use_exclusively": true
+    },
+    "room_directory": {
+        "servers": ["im.acloud.tr"]
+    },
+    "features": {
+        "feature_video_rooms": true,
+        "feature_element_call_video_rooms": true
+    }
+}

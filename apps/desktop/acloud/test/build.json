@@ -1,0 +1,7 @@
+{
+    "appId": "tr.acloud.element.desktop.test",
+    "name": "acloud-desktop-test",
+    "productName": "aCloud Desktop Test",
+    "description": "aCloud kurumsal iletişim istemcisi - test sürümü",
+    "protocols": ["tr.acloud.element.desktop.test"]
+}

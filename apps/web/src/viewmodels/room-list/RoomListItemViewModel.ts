@@ -38,6 +38,7 @@ import { keepIfSame } from "../../utils/keepIfSame";
 import dispatcher from "../../dispatcher/dispatcher";
 import { Action } from "../../dispatcher/actions";
 import type { ViewRoomPayload } from "../../dispatcher/payloads/ViewRoomPayload";
+import SdkConfig from "../../SdkConfig";
 import PosthogTrackers from "../../PosthogTrackers";
 import { type Call, CallEvent } from "../../models/Call";
 import RoomListStoreV3 from "../../stores/room-list-v3/RoomListStoreV3";
@@ -346,7 +347,7 @@ export class RoomListItemViewModel
         const canMarkAsUnread = !canMarkAsRead && !isArchived;
 
         const canInvite = room.canInvite(client.getUserId()!) && !isDm && shouldShowComponent(UIComponent.InviteUsers);
-        const canCopyRoomLink = !isDm;
+        const canCopyRoomLink = !isDm && !SdkConfig.get("enterprise_controls")?.hide_sharing;
 
         // Get the current room notification state from EchoChamber
         const echoChamber = EchoChamber.forRoom(room);

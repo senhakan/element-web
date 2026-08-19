@@ -79,9 +79,9 @@ const DefaultWelcome: React.FC<Props> = ({ serverConfig }) => {
 
     return (
         <div className="mx_DefaultWelcome">
-            <a href={branding.get("logo_link_url")} target="_blank" rel="noopener" className="mx_DefaultWelcome_logo">
+            <div className="mx_DefaultWelcome_logo">
                 <img src={logoUrl} alt={brand} />
-            </a>
+            </div>
             <Heading as="h1" weight="semibold">
                 {isElement ? _t("welcome|title_element") : _t("welcome|title_generic", { brand })}
             </Heading>

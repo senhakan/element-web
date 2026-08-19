@@ -33,6 +33,7 @@ import { DefaultTagID, type TagID } from "../../../stores/room-list-v3/skip-list
 import DMRoomMap from "../../../utils/DMRoomMap";
 import { clearRoomNotification, setMarkedUnreadState } from "../../../utils/notifications";
 import { type IProps as IContextMenuProps } from "../../structures/ContextMenu";
+import SdkConfig from "../../../SdkConfig";
 import IconizedContextMenu, {
     IconizedContextMenuCheckbox,
     IconizedContextMenuOption,
@@ -194,7 +195,7 @@ export const RoomGeneralContextMenu: React.FC<RoomGeneralContextMenuProps> = ({
     }
 
     let copyLinkOption: JSX.Element | null = null;
-    if (!isDm) {
+    if (!isDm && !SdkConfig.get("enterprise_controls")?.hide_sharing) {
         copyLinkOption = (
             <IconizedContextMenuOption
                 onClick={wrapHandler(
@@ -290,7 +291,8 @@ export const RoomGeneralContextMenu: React.FC<RoomGeneralContextMenuProps> = ({
         }
     })();
 
-    const developerModeEnabled = useSettingValue("developerMode");
+    const developerModeEnabled =
+        useSettingValue("developerMode") && !SdkConfig.get("enterprise_controls")?.hide_developer_tools;
     const developerToolsOption = developerModeEnabled ? (
         <DeveloperToolsOption onFinished={onFinished} roomId={room.roomId} />
     ) : null;

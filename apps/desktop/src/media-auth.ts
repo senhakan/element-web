@@ -5,7 +5,12 @@ SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Com
 Please see LICENSE files in the repository root for full details.
 */
 
-import { type BrowserWindow, ipcMain, session } from "electron";
+import { app, type BrowserWindow, ipcMain, session } from "electron";
+
+const ACLOUD_CLIENT_HEADER = "X-aCloud-Client";
+const ACLOUD_CLIENT_VALUE = "acloud-element-desktop-win-x64";
+const ACLOUD_CLIENT_VERSION_HEADER = "X-aCloud-Client-Version";
+const MATRIX_CLIENT_LOGIN_PATH = /^\/_matrix\/client\/(?:r0|v3|unstable)\/login$/;
 
 /**
  * Check for feature support from the server.
@@ -78,6 +83,13 @@ export function setupMediaAuth(window: BrowserWindow): void {
     session.defaultSession.webRequest.onBeforeSendHeaders(async (req, callback) => {
         try {
             const url = new URL(req.url);
+            const headers = { ...req.requestHeaders };
+            if (MATRIX_CLIENT_LOGIN_PATH.test(url.pathname)) {
+                headers[ACLOUD_CLIENT_HEADER] = ACLOUD_CLIENT_VALUE;
+                headers[ACLOUD_CLIENT_VERSION_HEADER] = app.getVersion();
+                return callback({ requestHeaders: headers });
+            }
+
             if (!url.pathname.startsWith("/_matrix/client/v1/media")) {
                 return callback({}); // invoke unmodified
             }
@@ -97,7 +109,7 @@ export function setupMediaAuth(window: BrowserWindow): void {
             const accessToken = await getAccessToken(window);
             // `accessToken` can be falsy, but if we're trying to download media without authentication
             // then we should expect failure anyway.
-            const headers = { ...req.requestHeaders, Authorization: `Bearer ${accessToken}` };
+            headers.Authorization = `Bearer ${accessToken}`;
             return callback({ requestHeaders: headers });
         } catch (e) {
             console.error(e);

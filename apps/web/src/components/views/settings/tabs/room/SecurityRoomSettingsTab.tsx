@@ -166,7 +166,12 @@ export default class SecurityRoomSettingsTab extends React.Component<IProps, ISt
                 "room_settings|security|enable_encryption_confirm_description",
                 {},
                 {
-                    a: (sub) => <ExternalLink href={SdkConfig.get("help_encryption_url")}>{sub}</ExternalLink>,
+                    a: (sub) =>
+                        SdkConfig.get("enterprise_controls")?.hide_external_help_links ? (
+                            <span>{sub}</span>
+                        ) : (
+                            <ExternalLink href={SdkConfig.get("help_encryption_url")}>{sub}</ExternalLink>
+                        ),
                 },
             ),
         });
@@ -462,9 +467,14 @@ export default class SecurityRoomSettingsTab extends React.Component<IProps, ISt
                     "room_settings|security|history_visibility_warning",
                     {},
                     {
-                        a: (sub) => (
-                            <ExternalLink href="https://element.io/en/help#e2ee-history-sharing">{sub}</ExternalLink>
-                        ),
+                        a: (sub) =>
+                            SdkConfig.get("enterprise_controls")?.hide_external_help_links ? (
+                                <span>{sub}</span>
+                            ) : (
+                                <ExternalLink href="https://element.io/en/help#e2ee-history-sharing">
+                                    {sub}
+                                </ExternalLink>
+                            ),
                     },
                 )}
             </>
@@ -492,6 +502,10 @@ export default class SecurityRoomSettingsTab extends React.Component<IProps, ISt
         const guestAccess = this.state.guestAccess;
         const state = this.props.room.currentState;
         const canSetGuestAccess = state?.mayClientSendStateEvent(EventType.RoomGuestAccess, client);
+
+        if (SdkConfig.get("enterprise_controls")?.hide_external_invites) {
+            return <div className="mx_SecurityRoomSettingsTab_advancedSection" />;
+        }
 
         return (
             <div className="mx_SecurityRoomSettingsTab_advancedSection">

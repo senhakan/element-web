@@ -1343,6 +1343,7 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
     }
 
     private async copyRoom(roomId: string): Promise<void> {
+        if (SdkConfig.get("enterprise_controls")?.hide_sharing) return;
         const roomLink = makeRoomPermalink(MatrixClientPeg.safeGet(), roomId);
         const success = await copyPlaintext(roomLink);
         if (!success) {

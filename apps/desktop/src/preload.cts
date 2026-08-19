@@ -77,4 +77,7 @@ contextBridge.exposeInMainWorld("electron", {
     async getSettingValue(settingName: string): Promise<any> {
         return ipcRenderer.invoke("getSettingValue", settingName);
     },
+    async acloudSoftphoneApiGet(accessToken: string): Promise<{ status: number; body: unknown }> {
+        return ipcRenderer.invoke("acloudSoftphoneApiGet", accessToken);
+    },
 });

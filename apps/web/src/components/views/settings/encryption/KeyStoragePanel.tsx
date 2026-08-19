@@ -55,11 +55,14 @@ export const KeyStoragePanel: React.FC<Props> = ({ onKeyStorageDisableClick }) =
                 />
             }
             subHeading={_t("settings|encryption|key_storage|description", undefined, {
-                a: (sub) => (
-                    <Link href={SdkConfig.get("help_key_storage_url")} target="_blank">
-                        {sub}
-                    </Link>
-                ),
+                a: (sub) =>
+                    SdkConfig.get("enterprise_controls")?.hide_external_help_links ? (
+                        <span>{sub}</span>
+                    ) : (
+                        <Link href={SdkConfig.get("help_key_storage_url")} target="_blank">
+                            {sub}
+                        </Link>
+                    ),
             })}
         >
             <Root className="mx_KeyStoragePanel_toggleRow">

@@ -90,6 +90,23 @@ export interface WebConfigJson {
 
     setting_defaults?: Record<string, any>; // <SettingName, Value>
 
+    enterprise_controls?: {
+        hide_labs?: boolean;
+        hide_credits?: boolean;
+        hide_integration_manager?: boolean;
+        hide_sharing?: boolean;
+        hide_chat_export?: boolean;
+        hide_external_invites?: boolean;
+        hide_developer_tools?: boolean;
+        disable_telemetry?: boolean;
+        managed_account_policy_endpoint?: string;
+        hide_help_faq?: boolean;
+        hide_auth_footer?: boolean;
+        password_reset_contact_message?: string;
+        hide_external_help_links?: boolean;
+        hide_access_token?: boolean;
+    };
+
     integrations_ui_url?: string;
     integrations_rest_url?: string;
     integrations_widgets_urls?: string[];

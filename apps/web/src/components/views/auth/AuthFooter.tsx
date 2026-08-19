@@ -13,6 +13,10 @@ import SdkConfig from "../../../SdkConfig";
 import { _t } from "../../../languageHandler";
 
 const AuthFooter = (): ReactElement => {
+    if (SdkConfig.get("enterprise_controls")?.hide_auth_footer) {
+        return <></>;
+    }
+
     const brandingConfig = SdkConfig.getObject("branding");
     const links = brandingConfig?.get("auth_footer_links") ?? [
         { text: "Blog", url: "https://element.io/blog" },

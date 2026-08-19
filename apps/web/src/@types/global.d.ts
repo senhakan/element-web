@@ -131,6 +131,7 @@ declare global {
         // Settings
         setSettingValue(settingName: string, value: any): Promise<void>;
         getSettingValue(settingName: string): Promise<any>;
+        acloudSoftphoneApiGet(accessToken: string): Promise<{ status: number; body: unknown }>;
     }
 
     interface DesktopCapturerSource {

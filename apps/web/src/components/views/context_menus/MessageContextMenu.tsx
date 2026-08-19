@@ -49,6 +49,7 @@ import { _t } from "../../../languageHandler";
 import Modal from "../../../Modal";
 import Resend from "../../../Resend";
 import SettingsStore from "../../../settings/SettingsStore";
+import SdkConfig from "../../../SdkConfig";
 import { isUrlPermitted } from "../../../HtmlUtils";
 import { canEditContent, editEvent, isContentActionable } from "../../../utils/EventUtils";
 import IconizedContextMenu, { IconizedContextMenuOption, IconizedContextMenuOptionList } from "./IconizedContextMenu";
@@ -478,7 +479,7 @@ export default class MessageContextMenu extends React.Component<IProps, IState> 
         }
 
         // This is specifically not behind the developerMode flag to give people insight into the Matrix
-        const viewSourceButton = (
+        const viewSourceButton = SdkConfig.get("enterprise_controls")?.hide_developer_tools ? undefined : (
             <IconizedContextMenuOption
                 icon={<InlineCodeIcon />}
                 label={_t("timeline|context_menu|view_source")}
@@ -498,7 +499,7 @@ export default class MessageContextMenu extends React.Component<IProps, IState> 
         }
 
         let permalinkButton: JSX.Element | undefined;
-        if (permalink) {
+        if (permalink && !SdkConfig.get("enterprise_controls")?.hide_sharing) {
             permalinkButton = (
                 <IconizedContextMenuOption
                     icon={<ShareIcon />}
@@ -565,7 +566,11 @@ export default class MessageContextMenu extends React.Component<IProps, IState> 
 
         let jumpToRelatedEventButton: JSX.Element | undefined;
         const relatedEventId = mxEvent.getAssociatedId();
-        if (relatedEventId && SettingsStore.getValue("developerMode")) {
+        if (
+            relatedEventId &&
+            SettingsStore.getValue("developerMode") &&
+            !SdkConfig.get("enterprise_controls")?.hide_developer_tools
+        ) {
             jumpToRelatedEventButton = (
                 <IconizedContextMenuOption
                     icon={<TreeIcon />}

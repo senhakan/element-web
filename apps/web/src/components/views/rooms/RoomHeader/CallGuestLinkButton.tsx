@@ -19,6 +19,7 @@ import BaseDialog from "../../dialogs/BaseDialog";
 import { useGuestAccessInformation } from "../../../../hooks/room/useGuestAccessInformation";
 import JoinRuleSettings from "../../settings/JoinRuleSettings";
 import SettingsStore from "../../../../settings/SettingsStore";
+import SdkConfig from "../../../../SdkConfig";
 
 /**
  * Display a button to open a dialog to share a link to the call using a element call guest spa url (`element_call:guest_spa_url` in the EW config).
@@ -27,6 +28,7 @@ import SettingsStore from "../../../../settings/SettingsStore";
  */
 export const CallGuestLinkButton: React.FC<{ room: Room }> = ({ room }) => {
     const { canInviteGuests, guestSpaUrl, isRoomJoinable, canInvite } = useGuestAccessInformation(room);
+    const sharingDisabled = SdkConfig.get("enterprise_controls")?.hide_sharing === true;
 
     const generateCallLink = useCallback(() => {
         if (!isRoomJoinable()) throw new Error("Cannot create link for room that users can not join without invite.");
@@ -79,7 +81,7 @@ export const CallGuestLinkButton: React.FC<{ room: Room }> = ({ room }) => {
 
     return (
         <>
-            {canInviteGuests && (
+            {canInviteGuests && !sharingDisabled && (
                 <Tooltip label={_t("voip|get_call_link")}>
                     <IconButton onClick={shareClick}>
                         <ExternalLinkIcon />

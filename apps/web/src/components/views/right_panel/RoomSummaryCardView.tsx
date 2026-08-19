@@ -50,6 +50,7 @@ import { topicToHtml } from "../../../HtmlUtils.tsx";
 import { useRoomSummaryCardViewModel } from "../../viewmodels/right_panel/RoomSummaryCardViewModel";
 import { useRoomTopicViewModel } from "../../viewmodels/right_panel/RoomSummaryCardTopicViewModel";
 import { useRoomName } from "../../../hooks/useRoomName.ts";
+import SdkConfig from "../../../SdkConfig.ts";
 
 interface IProps {
     room: Room;
@@ -280,7 +281,9 @@ const RoomSummaryCardView: React.FC<IProps> = ({
 
                 <Separator />
 
-                <MenuItem Icon={LinkIcon} label={_t("action|copy_link")} onSelect={vm.onShareRoomClick} />
+                {!SdkConfig.get("enterprise_controls")?.hide_sharing && (
+                    <MenuItem Icon={LinkIcon} label={_t("action|copy_link")} onSelect={vm.onShareRoomClick} />
+                )}
 
                 {!vm.isVideoRoom && (
                     <>
@@ -289,11 +292,13 @@ const RoomSummaryCardView: React.FC<IProps> = ({
                             label={_t("right_panel|polls_button")}
                             onSelect={vm.onRoomPollHistoryClick}
                         />
-                        <MenuItem
-                            Icon={ExportArchiveIcon}
-                            label={_t("export_chat|title")}
-                            onSelect={vm.onRoomExportClick}
-                        />
+                        {!SdkConfig.get("enterprise_controls")?.hide_chat_export && (
+                            <MenuItem
+                                Icon={ExportArchiveIcon}
+                                label={_t("export_chat|title")}
+                                onSelect={vm.onRoomExportClick}
+                            />
+                        )}
                     </>
                 )}
 

@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Com
 Please see LICENSE files in the repository root for full details.
 */
 
-import { app, autoUpdater, desktopCapturer, ipcMain, powerSaveBlocker, TouchBar, nativeImage } from "electron";
+import { app, autoUpdater, desktopCapturer, ipcMain, net, powerSaveBlocker, TouchBar, nativeImage } from "electron";
 
 import IpcMainEvent = Electron.IpcMainEvent;
 import { randomArray } from "./utils.js";
@@ -219,6 +219,30 @@ ipcMain.on("ipcCall", async function (_ev: IpcMainEvent, payload) {
 });
 
 ipcMain.handle("getConfig", getConfig);
+
+ipcMain.handle("acloudSoftphoneApiGet", async (_event, accessToken: unknown) => {
+    if (typeof accessToken !== "string" || !accessToken.trim()) {
+        return { status: 401, body: { error: "matrix_session_missing" } };
+    }
+
+    const response = await net.fetch("https://im.acloud.tr/softphone/api/sip-profile", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${accessToken.trim()}`,
+            Accept: "application/json",
+        },
+        cache: "no-store",
+    });
+
+    const text = await response.text();
+    let body: unknown = null;
+    try {
+        body = text ? JSON.parse(text) : null;
+    } catch {
+        body = { error: "invalid_json_response" };
+    }
+    return { status: response.status, body };
+});
 
 const initialisePromiseWithResolvers = Promise.withResolvers<void>();
 export const initialisePromise = initialisePromiseWithResolvers.promise;

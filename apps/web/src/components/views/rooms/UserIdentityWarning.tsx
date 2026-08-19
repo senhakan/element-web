@@ -11,6 +11,7 @@ import { Button, Separator } from "@vector-im/compound-web";
 import classNames from "classnames";
 
 import { _t } from "../../../languageHandler";
+import SdkConfig from "../../../SdkConfig";
 import MemberAvatar from "../avatars/MemberAvatar";
 import {
     useUserIdentityWarningViewModel,
@@ -134,6 +135,10 @@ function memberAvatar(member: RoomMember): React.ReactNode {
 }
 
 function substituteATag(sub: string): React.ReactNode {
+    if (SdkConfig.get("enterprise_controls")?.hide_external_help_links) {
+        return <span>{sub}</span>;
+    }
+
     return (
         <a href="https://element.io/help#encryption18" target="_blank" rel="noreferrer noopener">
             {sub}
