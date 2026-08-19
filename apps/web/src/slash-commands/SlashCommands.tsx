@@ -20,7 +20,6 @@ import {
     type User,
 } from "matrix-js-sdk/src/matrix";
 import { logger } from "matrix-js-sdk/src/logger";
-import { KnownMembership, type RoomMemberEventContent } from "matrix-js-sdk/src/types";
 import { LinkedText } from "@element-hq/web-shared-components";
 
 import dis from "../dispatcher/dispatcher";
@@ -142,39 +141,6 @@ export const Commands = [
         category: CommandCategories.actions,
     }),
     new Command({
-        command: "nick",
-        args: "<display_name>",
-        description: _td("slash_command|nick"),
-        runFn: function (cli, roomId, threadId, args) {
-            if (args) {
-                return success(cli.setDisplayName(args));
-            }
-            return reject(this.getUsage());
-        },
-        category: CommandCategories.actions,
-        renderingTypes: [TimelineRenderingType.Room],
-    }),
-    new Command({
-        command: "myroomnick",
-        aliases: ["roomnick"],
-        args: "<display_name>",
-        description: _td("slash_command|myroomnick"),
-        isEnabled: (cli) => !isCurrentLocalRoom(cli),
-        runFn: function (cli, roomId, threadId, args) {
-            if (args) {
-                const ev = cli.getRoom(roomId)?.currentState.getStateEvents(EventType.RoomMember, cli.getSafeUserId());
-                const content: RoomMemberEventContent = {
-                    ...(ev ? ev.getContent() : { membership: KnownMembership.Join }),
-                    displayname: args,
-                };
-                return success(cli.sendStateEvent(roomId, EventType.RoomMember, content, cli.getSafeUserId()));
-            }
-            return reject(this.getUsage());
-        },
-        category: CommandCategories.actions,
-        renderingTypes: [TimelineRenderingType.Room],
-    }),
-    new Command({
         command: "roomavatar",
         args: "[<mxc_url>]",
         description: _td("slash_command|roomavatar"),
@@ -189,55 +155,6 @@ export const Commands = [
                 promise.then((url) => {
                     if (!url) return;
                     return cli.sendStateEvent(roomId, EventType.RoomAvatar, { url }, "");
-                }),
-            );
-        },
-        category: CommandCategories.actions,
-        renderingTypes: [TimelineRenderingType.Room],
-    }),
-    new Command({
-        command: "myroomavatar",
-        args: "[<mxc_url>]",
-        description: _td("slash_command|myroomavatar"),
-        isEnabled: (cli) => !isCurrentLocalRoom(cli),
-        runFn: function (cli, roomId, threadId, args) {
-            const room = cli.getRoom(roomId);
-            const userId = cli.getSafeUserId();
-
-            let promise = Promise.resolve(args ?? null);
-            if (!args) {
-                promise = singleMxcUpload(cli);
-            }
-
-            return success(
-                promise.then((url) => {
-                    if (!url) return;
-                    const ev = room?.currentState.getStateEvents(EventType.RoomMember, userId);
-                    const content: RoomMemberEventContent = {
-                        ...(ev ? ev.getContent() : { membership: KnownMembership.Join }),
-                        avatar_url: url,
-                    };
-                    return cli.sendStateEvent(roomId, EventType.RoomMember, content, userId);
-                }),
-            );
-        },
-        category: CommandCategories.actions,
-        renderingTypes: [TimelineRenderingType.Room],
-    }),
-    new Command({
-        command: "myavatar",
-        args: "[<mxc_url>]",
-        description: _td("slash_command|myavatar"),
-        runFn: function (cli, roomId, threadId, args) {
-            let promise = Promise.resolve(args ?? null);
-            if (!args) {
-                promise = singleMxcUpload(cli);
-            }
-
-            return success(
-                promise.then((url) => {
-                    if (!url) return;
-                    return cli.setAvatarUrl(url);
                 }),
             );
         },
